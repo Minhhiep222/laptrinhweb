@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Pagination;
+
 
 /**
  * CRUD User controller
@@ -28,25 +30,17 @@ class CrudUserController extends Controller
         //kiểm tra email, password không được bỏ trống
         $request->validate(['email'=>'required',
         'password'=>'required']);
-        //credentials thông tin xác thực: 
-        // $user_id = $request->get('id');
-        // $user = User::find($user_id);
-        // if(Auth::check()){
-        //     //  $userTotal = User::all();
-        //     $users = DB::table('users');
-        //     return view('auth.list', ['users' => $users]);
-        // }
-
-        // for ($users as $user) {
-        //     $request->POST('email') = $user->email
-        //     $request->POST('password') = $user->password
-        // } 
 
         //only : chỉ lấy giá trị được chỉ định
         $credentials = $request->only('email', 'password');
         //
+        if(Auth::attempt($credentials)){
             return redirect()->intended('list')->withSuccess('Sign in');
+        }
+        return redirect('login');
+
     }
+    
 
     /**
      * Registration page

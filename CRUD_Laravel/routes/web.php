@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CrudUserController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,11 @@ Route::post('update', [CrudUserController::class, 'postUpdateUser'])->name('user
 
 Route::get('signOut', [CrudUserController::class, 'signOut'])->name('signOut');
 Route::get('list', [CrudUserController::class, 'listUser'])->name('user.list');
+
+Route::resource('user_profile', UserController::class );
+
+Route::get('user_profile/{id}/showPost', [UserController::class, 'showPost'])->name('user.showPost');
+Route::get('user_profile/{id}/showFavorite', [UserController::class, 'showFavorite'])->name('user.showFavorite');
 
 Route::get('favorite', function() {
     return view('auth.favorities');
