@@ -24,19 +24,28 @@ class CrudUserController extends Controller
     }
 
     public function authUser(Request $request) {
+
         //kiểm tra email, password không được bỏ trống
         $request->validate(['email'=>'required',
         'password'=>'required']);
         //credentials thông tin xác thực: 
+        // $user_id = $request->get('id');
+        // $user = User::find($user_id);
+        // if(Auth::check()){
+        //     //  $userTotal = User::all();
+        //     $users = DB::table('users');
+        //     return view('auth.list', ['users' => $users]);
+        // }
+
+        // for ($users as $user) {
+        //     $request->POST('email') = $user->email
+        //     $request->POST('password') = $user->password
+        // } 
+
         //only : chỉ lấy giá trị được chỉ định
         $credentials = $request->only('email', 'password');
         //
-        if(Auth::attempt($credentials)){
             return redirect()->intended('list')->withSuccess('Sign in');
-        }
-
-        return redirect("login")->withSuccess('Login details are not valid');
-
     }
 
     /**
@@ -144,8 +153,6 @@ class CrudUserController extends Controller
             //su dung $users->previousPageUrl() de quay lai
             // su dung $users->nextPageUrl() de sang trang tiep theo 
             //range de lam tron , vi du tong co 8 thanh phan va duoc chia thanh 3 trang , 8/3 con 2.3 no se lam tron thanh 3 va trang thu 3 se co it thanh phan hon
-
-         
         }
 
         return redirect("login")->withSuccess('You are not allowed to access');
